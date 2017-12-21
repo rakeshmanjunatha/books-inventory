@@ -1,0 +1,20 @@
+{% extends "index.html" %}
+{% load staticfiles %}
+{% block content %}
+  <!--Second page-->
+  <form method="post"  action='{% url "add_author" %}'>{% csrf_token %}
+    
+    <div class="container">
+      {{form.as_p}}
+      
+      <button type="submit" class="btn btn-primary" id="btn_submit">Submit</button>
+      <div>
+        {% if messages %}
+          {% for message in messages %}
+            {{ message }}
+          {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+  </form>
+{% endblock content %}

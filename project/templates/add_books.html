@@ -1,0 +1,32 @@
+{% extends "index.html" %}
+{% load staticfiles %}
+{% block content %}
+  <!--Second page-->
+  <form method="post" enctype="multipart/form-data" action='{% url "add_books" %}'>{% csrf_token %}
+    
+    <div class="container">
+      {{form.as_p}}
+      
+      <button type="submit" class="btn btn-primary" id="btn_submit">Submit</button>
+      <div>
+        {% if messages %}
+          {% for message in messages %}
+            {{ message }}
+          {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+  </form>
+  <script src="{% static 'js/jquery.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" />
+  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+  <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+
+
+  <script type="text/javascript">
+   $(function() {
+    $( ".datepicker" ).datepicker();
+  });
+  </script>
+{% endblock content %}

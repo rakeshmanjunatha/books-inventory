@@ -1,0 +1,117 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Collapsible sidebar using Bootstrap 3</title>
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/style5.css' %}">
+  </head>
+  <body>
+    <div class="container-fluid">
+      <!-- Sidebar Holder -->
+      
+      <!-- Page Content Holder -->
+      <div id="content">
+        <nav class="navbar navbar-default">
+          <div class="container-fluid">
+            <div class="navbar-header">
+              Company Name
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+              <ul class="nav navbar-nav navbar-right">
+                <li><a href="/">Books</a></li>
+                <li><a href="#">Contact us</a></li>
+                {% if request.user.is_authenticated %}
+                    
+                
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-user
+                  "></span>  Hello {{request.user.username}}&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                  <ul class="dropdown-menu" role="menu">
+                    <!--- Put your menu-item here -->
+                    <li><a href="{% url 'add_books' %}">Add Books</a></li>
+                    <li><a href="{% url 'add_category' %}">Add Category</a></li>
+                    <li><a href="{% url 'add_author' %}">Add Author</a></li>
+                    <li><a href="/accounts/logout/">Logout</a></li>
+                  </ul>
+                </li>
+                {% else %}
+                <li><a href="{% url 'account_login' %}">Login</a></li>
+                <li><a href="{% url 'account_signup' %}">Signup</a></li>
+                {% endif %}
+              </ul>
+            </div>
+          </div>
+        </nav>
+        {% block content %}
+          
+          <div class="container">
+            <div class="row">
+              <h4>Most Popular Books</h4>
+              {% for book in books_object %}
+                {% if book.is_most_popular%}
+                  <div class="col-xs-12 col-md-3 col-sm-6">
+                    <div class="thumbnail">
+                      
+                      <img src="{{book.book_front_image.url}}" alt="{{book.title}}" title="{{book.title}}"  class="thumbnail">
+                      <a href="#">
+                        <div class="caption">
+                          <p class="catListTitle"> {{book.title}} </p>
+                          <p class="catListTitle">Price {{book.price}}</p>
+                          <p class="catListTitle"><a href="#">Download</a></p>
+                        </div>
+                      </a>
+                      
+                    </div>
+                  </div>
+                {% endif %}
+              {% endfor %}
+              
+            </div>
+            <div class="row">
+              <h4>Most Rated Books</h4>
+              {% for book in books_object %}
+                {% if not book.is_most_popular%}
+                  <div class="col-xs-12 col-md-3 col-sm-6">
+                    <div class="thumbnail">
+                      
+                      <img src="{{book.book_front_image.url}}" alt="{{book.title}}" title="{{book.title}}"   class="thumbnail">
+                      <a href="#">
+                        <div class="caption">
+                          <p class="catListTitle"> {{book.title}}</p>
+                          <p class="catListTitle">Price {{book.price}}</p>
+                          <p class="catListTitle"><a href="#">Download</a></p>
+                        </div>
+                      </a>
+                      
+                    </div>
+                  </div>
+                {% endif %}
+              {% endfor %}
+              
+            </div>
+            
+          </div>
+        {% endblock content %}
+        
+      </div>
+    </div>
+    <!-- jQuery CDN -->
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <!-- Bootstrap Js CDN -->
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript">
+    $(document).ready(function () {
+    $('#sidebarCollapse').on('click', function () {
+    $('#sidebar').toggleClass('active');
+    $(this).toggleClass('active');
+    });
+    });
+    </script>
+  </body>
+</html>
